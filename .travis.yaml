@@ -23,12 +23,6 @@ jobs:
   - env: TEST_ENV="Debian11-Docker"
 
   include:
-  - stage: Shellcheck
-    env: TEST_ENV="Shellcheck"
-    script:
-    - ./tests/test-shell-scripts.sh
-    - ./tests/lint-dockerfiles.sh
-
   - stage: Test
     env: TEST_ENV="Focal-Docker"
     script: ./ubuntu-post-install/tests/test-distro.sh "ubuntu" "focal" "post-install.yml" "true"
