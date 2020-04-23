@@ -1,0 +1,37 @@
+version: ~> 1.0
+os:
+- linux
+language: python
+dist: bionic
+env:
+  global:
+  - DEBUG="TRAVIS"
+  - AUTOPILOT="true"
+python:
+- "3.6"
+services:
+- docker
+install:
+- git clone https://github.com/tprasadtp/ubuntu-post-install.git
+before_script:
+- chmod +x ./ubuntu-post-install/after-effects
+- chmod +x ./ubuntu-post-install/tests/*.sh
+- chmod +x ./ubuntu-post-install/build/*.sh
+jobs:
+  allow_failures:
+  - env: TEST_ENV="Focal-Docker"
+  - env: TEST_ENV="Debian11-Docker"
+
+  include:
+  - stage: Shellcheck
+    env: TEST_ENV="Shellcheck"
+    script:
+    - ./tests/test-shell-scripts.sh
+    - ./tests/lint-dockerfiles.sh
+
+  - stage: Test
+    env: TEST_ENV="Focal-Docker"
+    script: ./ubuntu-post-install/tests/test-distro.sh "ubuntu" "focal" "post-install.yml" "true"
+
+  - env: TEST_ENV="Debian11-Docker"
+    script: ./ubuntu-post-install/tests/test-distro.sh "debian" "bullseye" "post-install.yml" "true"
