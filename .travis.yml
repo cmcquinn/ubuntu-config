@@ -25,7 +25,7 @@ jobs:
   include:
   - stage: Test
     env: TEST_ENV="Focal-Docker"
-    script: ./ubuntu-post-install/tests/test-distro.sh "ubuntu" "focal" "post-install.yml" "true"
+    script: cd ubuntu-post-install && ./tests/test-distro.sh "ubuntu" "focal" "../post-install.yml" "true"
 
   - env: TEST_ENV="Debian11-Docker"
-    script: ./ubuntu-post-install/tests/test-distro.sh "debian" "bullseye" "post-install.yml" "true"
+    script: cd ubuntu-post-install && ./tests/test-distro.sh "debian" "bullseye" "../post-install.yml" "true"
